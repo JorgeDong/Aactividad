@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/
+typedef struct{
+	char nombre[15];
+	float calificacion;
+} Profesor;
+
+
+
+
+
+int main()
+{
+    void main(){
+	Profesor arr1[20];  //Primer arreglo
+	Profesor arr2[20];  //Segundo arreglo
+	Profesor arrF[40];  //Arreglo final, con elementos fusionados y ordenados
+	int n1, n2; //Longitud de los arreglos
+   
+   
+   // declarar apuntadores 
+   
+   Profesor *parr1;
+   Profesor *parr2;
+   Profesor *parrF;
+   
+    parr1=arr1;
+    parr2=arr2;
+    parrF=arrF;
+   
+   char profe[20];
+   float cali[20];
+   
+    
+   int total=n1+n2;
+  
+    readArray(arr1,n1); //leer el primer arreglo
+    readArray(arr2,n2);  //leer el segundo arreglo 
+    mergeArrays(parrF,total,parr1,n1,parr2,n2);  //Fusionar los dos arreglos en un tercer arreglo
+
+    sortArray(parrF,total);  //Ordenar los elementos del tercer arreglo, recuerde que pueden 
+    //existir profesores repetidos
+
+    printArray(parrF,total);   
+    
+
+return 0;
+}
+}
+
+void readArray(Profesor arr[], int n)
+{
+   
+    int i;
+    for (i=0;i<n;i++)
+    {
+    scanf("%s%f",&arr[i].nombre,&arr[i].calificacion);
+    }
+    
+}
+
+void mergeArrays(Profesor *parr1, int total, Profesor *parr2, int n1, Profesor *parrF, int n2)
+{
+    int i,k;
+    for(i=0;i<=n1;i++)
+      {
+         strcpy(parrF[k].nombre,parr1[k].nombre);
+         parrF[i].calificacion = parr1[i].calificacion;
+        
+      }
+      
+      for (i=n1;i<=total;i++)
+      {
+        strcpy(parrF[k].nombre,parr2[k].nombre);
+        parrF[i].calificacion = parr2[i].calificacion;
+      }
+   
+}
+
+void sortArray(Profesor *parrF, int total){
+    
+    Profesor temp[40];
+      
+     int i,k;
+      for (i=0;total <(i-1);i++)
+      {
+        for (k=0;k<(total-1);k++) //
+        {
+          if (parrF[k].calificacion > parrF[k+1].calificacion)
+          {
+            temp[i].calificacion  = parrF[i].calificacion;
+            parrF[k].calificacion   = parrF[k+1].calificacion;  
+            parrF[k+1] .calificacion=  temp[i].calificacion;
+          }
+        }
+      }
+    
+    
+}
+
+float averageArray(Profesor *parrF  , int total)
+{
+    int i;
+    for (i=0;i<total;i++)
+    {
+        if(parrF[i].nombre==parrF[i+1].nombre){
+            parrF[i].calificacion=(parrF[i].calificacion+parrF[i+1].calificacion)/2;
+            strcpy(parrF[i+1].nombre,"");
+            parrF[i+1].nombre;
+        } 
+        
+    }
+    return parrF[40].calificacion;
+}
+
+void printArray(Profesor *parrF , int total){
+    int i;
+    for (i=0;i<total;i++)
+    {
+        printf("%s %f",parrF[i].nombre,parrF[i].calificacion);
+    }
+
+}
