@@ -1,0 +1,280 @@
+#include <stdio.h>
+#include <time.h>
+#include <windows.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i;
+    double nsum=0.0;
+    double psum=0.0;
+    double pi;
+    long long int n=50000000000 ;
+
+
+
+    int hilos;
+    scanf("%d",&hilos);
+
+
+
+
+clock_t start = clock();
+
+  for (i=3;i<=n;i+=4){
+      //printf("%d ",i);
+     nsum+=1/(float)i;
+     //printf("%f\n",nsum);
+    }
+
+    for (i=5;i<=n;i+=4){
+     // printf("%d ",i);
+      psum+=1/(float)i;
+      //printf("%f\n",psum);
+    }
+
+    //printf("%f\n",nsum);
+    pi=4*(((nsum*-1)+psum)+ 1);
+
+    printf("%.10f\n",pi);
+
+    clock_t stop = clock();
+    int ms = 1000 * (stop - start)/CLOCKS_PER_SEC;
+    printf("%d ms", ms);
+
+    return 0;
+}
+
+Código fuente de la versión paralelizada 
+#include <stdio.h>
+#include <time.h>
+#include <windows.h>   // solo mandar en el inicio
+#include <stdlib.h>
+
+double psum=0.0;
+double nsum=0.0;
+static long long int  k;
+
+DWORD WINAPI calpi(void *pn);
+DWORD WINAPI calpi1(void *pn);
+DWORD WINAPI calpi2(void *pn);
+DWORD WINAPI calpineg(int *division);
+DWORD WINAPI calpipos(int *division);
+
+int main()
+{
+
+
+    long long int n=5000000000000;
+    int *pn;
+    pn=&n;
+    int division;
+
+
+
+    int hilos;
+    printf("Hilos?\n");
+    scanf("%d",&hilos);
+
+
+    HANDLE h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,h17,h18,h19;
+
+
+    if (hilos==1){
+        h1=CreateThread(NULL, 0, calpi, (void *)n, 0, NULL);
+        WaitForSingleObject(h1, INFINITE);
+    }
+    else if (hilos==2){
+        h2=CreateThread(NULL, 0, calpi1, (void *)n, 0, NULL); // negativos
+        h3=CreateThread(NULL, 0, calpi2, (void *)n, 0, NULL);// postitivos
+
+        WaitForSingleObject(h2, INFINITE);
+    WaitForSingleObject(h3, INFINITE);
+
+    }
+    else if(hilos==4){
+       long long int n4=25000000000;
+        int *pn4;
+        pn4=&n4;
+
+
+        h4=CreateThread(NULL, 0, calpi1, (int *)n4, 0, NULL); // negativos
+        h5=CreateThread(NULL, 0, calpi2, (int *)n4, 0, NULL);// postitivos
+        static k=25000000000;
+        h6=CreateThread(NULL, 0, calpineg, (int *)n4, 0, NULL); // negativos
+        h7=CreateThread(NULL, 0, calpipos, (int *)n4, 0, NULL);// postitivos
+
+    WaitForSingleObject(h4, INFINITE);
+    WaitForSingleObject(h5, INFINITE);
+    WaitForSingleObject(h6, INFINITE);
+    WaitForSingleObject(h7, INFINITE);
+
+    }
+    else if(hilos==8){
+        long long int n8=12500000000;
+        int *pn8;
+        pn8=&n8;
+
+        h4=CreateThread(NULL, 0, calpi1, (int *)n8, 0, NULL); // negativos
+        h5=CreateThread(NULL, 0, calpi2, (int *)n8, 0, NULL);// postitivos
+        k=12500000000;
+        h6=CreateThread(NULL, 0, calpineg, (int *)n8, 0, NULL); // negativos
+        h7=CreateThread(NULL, 0, calpipos, (int *)n8, 0, NULL);// postitivos
+        k=12500000000*2;
+        h8=CreateThread(NULL, 0, calpineg, (int *)n8, 0, NULL); // negativos
+        h9=CreateThread(NULL, 0, calpipos, (int *)n8, 0, NULL);// postitivos
+        k=12500000000*4;
+        h10=CreateThread(NULL, 0, calpineg, (int *)n8, 0, NULL); // negativos
+        h11=CreateThread(NULL, 0, calpipos, (int *)n8, 0, NULL);// postitivos
+
+    WaitForSingleObject(h4, INFINITE);
+    WaitForSingleObject(h5, INFINITE);
+    WaitForSingleObject(h6, INFINITE);
+    WaitForSingleObject(h7, INFINITE);
+    WaitForSingleObject(h8, INFINITE);
+    WaitForSingleObject(h9, INFINITE);
+    WaitForSingleObject(h10, INFINITE);
+    WaitForSingleObject(h11, INFINITE);
+
+    }
+    else if(hilos==16){
+            long long int n16=312500000;
+        int *pn16;
+        pn16=&n16;
+
+        h4=CreateThread(NULL, 0, calpi1, (int *)n16, 0, NULL); // negativos
+        h5=CreateThread(NULL, 0, calpi2, (int *)n16, 0, NULL);// postitivos
+        k=312500000;
+        h6=CreateThread(NULL, 0, calpineg, (int *)pn16, 0, NULL); // negativos
+        h7=CreateThread(NULL, 0, calpipos, (int *)pn16, 0, NULL);// postitivos
+        k=312500000*2;
+        h8=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h9=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+        k=312500000*4;
+        h10=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h11=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+        k=312500000*6;
+        h12=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h13=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+        k=312500000*8;
+        h14=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h15=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+        k=312500000*10;
+        h16=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h17=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+        k=312500000*10;
+        h18=CreateThread(NULL, 0, calpineg, (int *)n16, 0, NULL); // negativos
+        h19=CreateThread(NULL, 0, calpipos, (int *)n16, 0, NULL);// postitivos
+
+    WaitForSingleObject(h4, INFINITE);
+    WaitForSingleObject(h5, INFINITE);
+    WaitForSingleObject(h6, INFINITE);
+    WaitForSingleObject(h7, INFINITE);
+    WaitForSingleObject(h8, INFINITE);
+    WaitForSingleObject(h9, INFINITE);
+    WaitForSingleObject(h10, INFINITE);
+    WaitForSingleObject(h11, INFINITE);
+    WaitForSingleObject(h12, INFINITE);
+    WaitForSingleObject(h13, INFINITE);
+    WaitForSingleObject(h14, INFINITE);
+    WaitForSingleObject(h15, INFINITE);
+    WaitForSingleObject(h16, INFINITE);
+    WaitForSingleObject(h17, INFINITE);
+    WaitForSingleObject(h18, INFINITE);
+    WaitForSingleObject(h19, INFINITE);
+
+
+
+
+    }
+
+    clock_t start = clock();
+
+
+
+
+double pi;
+pi=4*(((nsum*-1)+psum)+ 1);
+printf("PI: %.10f\n",pi);
+
+
+
+    clock_t stop = clock();
+    int ms = 1000 * (stop - start)/CLOCKS_PER_SEC;
+    printf("Tiempo: %d ms\n", ms);
+    printf("Fin del flujo principal\n");
+
+    return 0;
+}
+
+DWORD WINAPI calpi(void *pn){
+    int i;
+    double pi;
+
+    for (i=3;i<=pn;i+=4){
+      //printf("%d ",i);
+     nsum+=1/(float)i;
+     //printf("%f\n",nsum);
+    }
+
+    for (i=5;i<= pn;i+=4){
+     // printf("%d ",i);
+      psum+=1/(float)i;
+      //printf("%f\n",psum);
+    }
+
+    //printf("%f\n",nsum);
+    pi=4*(((nsum*-1)+psum)+ 1);
+
+    printf("PI: %.10f\n",pi);
+    printf("fin del hilo\n");
+
+
+return 0;
+}
+
+DWORD WINAPI calpi1(void *pn){
+    long long int i;
+
+    for (i=3;i<=pn;i+=4){
+     nsum+=1/(float)i;
+    }
+
+    printf("Fin hilo 1\n");
+return 0;
+}
+DWORD WINAPI calpi2(void *pn){
+    long long int i;
+
+    for (i=5;i<= pn;i+=4){
+      psum+=1/(float)i;
+    }
+
+printf("Fin hilo 2\n");
+return 0;
+}
+DWORD WINAPI calpineg(int *pn){
+    long long int i;
+
+    for (i=pn+k;i<=pn+k;i+=4){
+     nsum+=1/(float)i;
+    }
+
+    printf("Fin hilo n\n");
+return 0;
+}
+DWORD WINAPI calpipos(int *pn){
+    long long int i;
+
+
+    for (i=pn+k;i<= pn+k;i+=4){
+      psum+=1/(float)i;
+    }
+
+printf("Fin hilo n\n");
+return 0;
+}
+
+
+
+
