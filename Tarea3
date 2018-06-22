@@ -1,0 +1,240 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+FILE *fd,*fd2,*fd3,*fd4;
+
+typedef struct{
+  int dd;
+  int mm;
+  int aaaa;
+}fecha;
+
+typedef struct{
+  int idUsuario;
+  char nombre[20];
+  char apellidop[20];
+  char apellidom[20];
+  fecha nacimiento;
+
+}Usuario;pusuario
+
+
+typedef struct{
+    int dd;
+    int mm;
+    int aaa;
+
+}FechaApertura;
+typedef struct{
+    int cuenta;
+    int usuario;
+    char saldo[20];
+    fechaApertura FA;
+
+}Cuenta;
+
+
+
+int main(void){
+    int opcion;
+    char ruta[100];
+    char rutaUsuario[100];
+    char rutaCuentas[100];
+    char rutaTransacciones[100];
+    char rutamydb[100];
+
+    printf("Ingresar ruta de acceso\n");
+    gets(ruta);
+    // Asignacion de ruta de Usuario
+    strcpy(ruta,strcat(ruta, "\\"));
+    strcpy(rutaUsuario,ruta);
+    strcpy(rutaCuentas,ruta);
+    strcpy(rutaTransacciones,ruta);
+    strcpy(rutamydb,ruta);
+    strcat(rutaUsuario, "\\usuario.dat");
+    // Asignacion ruta Cuentas
+    strcat(rutaCuentas, "\\cuentas.dat");
+    // Asigancion de ruta Transacciones
+    strcat(rutaTransacciones, "\\transacciones.dat");
+    strcat(rutamydb, "\\mydb.sys");
+
+    puts(rutaUsuario);
+    puts(rutaCuentas);
+    puts(rutaTransacciones);
+    puts(rutamydb);
+
+// Verificacion de archivos
+
+  fd =fopen(rutaUsuario,"rb");
+  fd2=fopen(rutaCuentas,"rb");
+  fd3=fopen(rutaTransacciones,"rb");
+  fd4=fopen(rutamydb,"rb");
+      if(fd==NULL){
+        printf("Arvhivo Usuario no existe\n");
+        printf("Creando archivo..\n");
+        fd =fopen(rutaUsuario,"wb");
+      }
+      else {
+        printf("Se encontro el archivo\n");
+        printf("Ubicacion: %s",rutaUsuario);
+      }
+      if(fd2==NULL){
+        printf("Arvhivo Cuentas no existe\n");
+        printf("Creando archivo..\n");
+        fd2 =fopen(rutaCuentas,"wb");
+      }
+      else {
+        printf("Se encontro el archivo\n");
+        printf("Ubicacion: %s",rutaCuentas);
+      }
+      if(fd3==NULL){
+        printf("Arvhivo Transacciones no existe\n");
+        printf("Creando archivo..\n");
+        fd3 =fopen(rutaTransacciones,"wb");
+      }
+      else {
+        printf("Se encontro el archivo\n");
+        printf("Ubicacion: %s",rutaTransacciones);
+      }
+
+    if(fd4==NULL){
+      printf("Arvhivo RUTAS no existe\n");
+      printf("Creando archivo..\n");
+      fd3 =fopen(rutaTransacciones,"wb");
+    }
+    else {
+    printf("Se encontro el archivo\n");
+    printf("Ubicacion: %s",rutaTransacciones);
+    }
+
+
+
+    do{
+        printf("\n<< Sistema MyDB >>\n");
+        printf("1. lientes\n");
+        printf("2. Cuentas\n");
+        printf("3. Transacciones\n");
+        printf("4. Salir \n");
+        printf("\n");
+        scanf("%i",&opcion);
+
+        switch(opcion){
+            int opcion2;
+            case 1:
+                system ("cls");
+            printf("Nuevo Cliente\n");
+            printf("Buscar Cliente\n");
+            printf("Eliminar Client\n");
+            printf("Imprimir Cliente \n");
+            printf("\n");
+            scanf("%i",&opcion2);
+            switch(opcion2){
+            case 1:
+               fprintf(fd,"id_Usuario\t\t\tnombre\t\t\tapellido_paterno\t\t\tapellido_materno\t\t\tFecha nacimiento\n\n");
+               
+               printf("ID Usuario\n");
+               gets(pusuario.idUsuario);
+               printf("Nombre\n");
+               gets(pusuario.nombre);
+               printf("Apellido paterno\n");
+               gets(pusuario.apellidop);
+               printf("Apellido Materno\n");
+               gets(pusuario.apellidom);
+               printf("Fecha de nacimiento\n");
+               gets(pusuario.nacimiento.dd);
+               gets(pusuario.nacimiento.mm);
+               gets(pusuario.nacimiento.aaaa);
+                
+                
+                fwrite(pusuario.idUsuario,1,strlen(pusuario.idUsuario),fd);
+                printf("\t\t\t");
+                fwrite(pusuario.nombre,1,strlen(pusuario.nombre),fd);
+                printf("\t\t\t");
+                fwrite(pusuario.apellidop,1,strlen(pusuario.apellidop),fd);
+                printf("\t\t\t");
+                fwrite(pusuario.apellidom,1,strlen(pusuario.apellidom),fd);
+                printf("\t\t\t");
+                fwrite(pusuario.nacimiento.dd,1,strlen(pusuario.nacimiento.dd),fd);
+                printf(",");
+                fwrite(pusuario.nacimiento.mm,1,strlen(pusuario.nacimiento.mm),fd);
+                printf(",");
+                fwrite(pusuario.nacimiento.aaaa,1,strlen(pusuario.nacimiento.aaaa),fd);
+                printf("\n");
+                
+                break;
+                
+                
+                
+                
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                int c;
+                while ((c=fgetc(fd))!=EOF){
+                    if(c=='\n')
+                        printf("\n");
+                }
+                
+                break;
+            case 5:
+                break;
+            }
+
+        break;
+
+            case 2:
+
+            printf("Nueva Cuenta\n");
+            printf("Buscar Cuenta\n");
+            printf("Eliminar Cuenta\ne");
+            printf("Imprimir cuentas \n");
+            printf("\n");
+             scanf("%i",&opcion2);
+            switch(opcion2){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            }
+            break;
+
+
+            case 3:
+            printf("Deposito\n");
+            printf("Retiro\n");
+            printf("Transeferencia\n");
+            printf("\n");
+            scanf("%i",&opcion2);
+            switch(opcion2){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            }
+            break;
+
+
+        }
+
+        printf("hola");
+    }while(opcion!=4);
+
+
+
+
+    return 0;
+}
