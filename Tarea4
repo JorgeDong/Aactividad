@@ -62,7 +62,7 @@ int pop(Stack* stack)
     return stack->data[stack->top--];
 }
 
-int ln(char *cad)
+int ln(char *cad) longitud de la cadena 
 {
     int ln = 0;
     int i;
@@ -74,7 +74,7 @@ int ln(char *cad)
     return ln;
 }
 
-int balancedBrackets(char *expr)  // balance de stack 
+int balancedBrackets(char *expr)  // balance  de stack 
 {
     int k;
     for (k=0;k<ln(expr);k++)
@@ -85,7 +85,7 @@ int balancedBrackets(char *expr)  // balance de stack
         }
         else
         {
-            if (expr[k]==')')
+            if (expr[k]==')') caso parentesis 
             {
                 if (expr()!='(')
                 {
@@ -94,7 +94,7 @@ int balancedBrackets(char *expr)  // balance de stack
             }
             else
             {
-                if (expr[k]==']')
+                if (expr[k]==']')  caso corchetes
                 {
                     if (pop()!='[')
                     {
