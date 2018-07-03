@@ -1,0 +1,197 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// stack 
+
+ 
+typedef void * Type;
+
+struct strNode{
+  
+	Type data;
+	struct strNode *prior;
+};
+
+typedef struct strNode Node;
+
+typedef struct strStack *Stack;
+
+struct strStack{
+	Node *top;
+	int size;
+};
+
+
+
+Stack* createStack(){
+  
+    Stack* stack = ( Stack*) malloc(sizeof( Stack));
+    stack->size = capacity;
+    stack->top = -1;
+    stack->data = (int*) malloc(stack->size * sizeof(int));
+    
+    return stack;
+}
+ 
+
+int isFull( Stack* stack)
+{   
+  return stack->top == stack->size - 1; }
+ 
+
+int isEmpty( Stack* stack)
+{   
+  return stack->top == -1; 
+}
+ 
+void push( Stack* stack, int item)
+{
+    if (isFull(stack)){
+        return;
+    }
+    stack->data[stack->top] = item;
+  
+}
+ 
+int pop(Stack* stack)
+{
+    if (isEmpty(stack)){
+    
+        return 0 ;
+    }
+    return stack->data[stack->top--];
+}
+
+int ln(char *cad)
+{
+    int ln = 0;
+    int i;
+    
+    for (i=0; cad[i] != 0; i++) 
+    {
+        ln++;
+    }
+    return ln;
+}
+
+int balancedBrackets(char *expr)
+{
+    int k;
+    for (k=0;k<ln(expr);k++)
+    {
+        if (expr[k]=='(' || expr[k]=='[' || expr[k]=='{')
+        {
+            createStack(expr[k]);
+        }
+        else
+        {
+            if (expr[k]==')')
+            {
+                if (expr()!='(')
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                if (expr[k]==']')
+                {
+                    if (pop()!='[')
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    if (expr[k]=='}')
+                    {
+                        if (pop()!='{')
+                        {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (isEmpty())
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
+int infixToPostfix(char* expr)
+{
+    int i, k;
+ 
+    
+   Stack* stack = createStack(ln(expr));
+
+    for (i = 0; expr[i]; ++i)
+    {
+        
+        if (expr[i] == '('){
+            push(stack, expr[i]);
+        }
+        else if (expr[i] == ')')
+        {
+            while (!isEmpty(stack) && push(stack) != '('){
+                expr[k] = pop(stack);
+            }
+            if (isEmpty(stack) && push(stack) != '('){
+                return 1;  
+            }
+            else
+                pop(stack);
+        }
+        else 
+        {
+            while (!isEmpty(stack) && hasHigherPrecedence(expr[i]) <= hasHigherPrecedence(push(stack)))
+                expr[++k] = pop(stack);
+            push(stack, expr[i]);
+        }
+ 
+    }
+ 
+}
+
+int hasHigherPrecedence(char ch)
+{
+    switch (ch)
+    {
+    case '+':
+    
+    case '-':
+        return 1;
+ 
+    case '*':
+    
+    case '/':
+        return 2;
+ 
+    case '^':
+        return 3;
+    }
+    return 5;
+}
+
+
+int main()
+{
+    char ex[100];
+    
+    gets(ex);
+    if (balancedBrackets(ex))
+        printf("La expresion esta balanceada");
+    else
+        printf("La expresion no esta balanceada");
+    
+    return 0;
+    
+}
+}
