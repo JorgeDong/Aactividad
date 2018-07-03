@@ -6,7 +6,7 @@
  
 typedef void * Type;
 
-struct strNode{
+struct strNode{   // stack 
   
 	Type data;
 	struct strNode *prior;
@@ -23,7 +23,7 @@ struct strStack{
 
 
 
-Stack* createStack(){
+Stack* createStack(){   // creacion del stack
   
     Stack* stack = ( Stack*) malloc(sizeof( Stack));
     stack->size = capacity;
@@ -74,7 +74,7 @@ int ln(char *cad)
     return ln;
 }
 
-int balancedBrackets(char *expr)
+int balancedBrackets(char *expr)  // balance de stack 
 {
     int k;
     for (k=0;k<ln(expr);k++)
